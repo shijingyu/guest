@@ -17,7 +17,8 @@ def login_action(request):
             #return HttpResponse('login success!')
             #return HttpResponseRedirect('/event_manage/')
             respone = HttpResponseRedirect('/event_manage/')
-            respone.set_cookie('user',username,3600)
+            #respone.set_cookie('user',username,3600)
+            request.session['user'] = username
             return respone
 
         else:
@@ -26,5 +27,6 @@ def login_action(request):
         return HttpResponse('login error!')
 
 def event_manage(request):
-    username = request.COOKIES.get('user','')
+    #username = request.COOKIES.get('user','')
+    username = request.session.get('user','')
     return render(request,'event_manage.html',{"user":username})

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sign.apps.SignConfig',
+    'bootstrap3',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +82,19 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
+# DATABASES = {
+#     'default':{
+#         'ENGINE': 'django.db.backends.mysql',
+#         'HOST': '127.0.0.1',
+#         'PORT': '3306',
+#         'NAME': 'guest',
+#         'USER': '',
+#         'PASSWORD': '',
+#         'OPTIONS': {
+#             #'init_command':"SET sql_mode='STRICT_TRANS_TABLES",
+#         },
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators

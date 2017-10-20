@@ -70,3 +70,27 @@ def guest_manage(request):
 def sign_index(request, eid):
     event = get_object_or_404(Event,id=eid)
     return render(request, 'sign_index.html', {'event':event})
+
+@login_required
+def sign_index_action(request, eid):
+    event = get_object_or_404(Event, id=eid)
+    phone = request.POST.get('phone','')
+    print phone
+    result = Guest.objects.filter(phone=phone)
+    if not result:
+        return render(request, 'sign_index.html', {'event':'evnet', 'hint':'phone error.'})
+    result = Guest.objects.filter(phone=phone, event_id=eid)
+    if not result:
+        return render(request, 'sign_index.html', {'event':'evnet', 'hint':'event_id or phone error.'})
+    result = Guest.objects.get(phone=phone, event_id=eid)
+    if result.sign:
+        return render(request, 'sign_index.html', {'event':'evnet', 'hint':'has sign  in already .'})
+    else:
+        Guest.objects.filter(phone=phone,event_id=eid).update(sign='1')
+        return render(request, 'sign_index.html', {'event':'evnet', 'hint':'sign success .', 'guest':result})
+
+@login_required
+def logout(request):
+    auth.logout(request)
+    response = HttpResponseRedirect('/index/')
+    return response

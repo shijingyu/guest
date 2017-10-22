@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+from django.contrib.auth.models import User
 from django.test import TestCase
 from sign.models import Event,Guest
 # Create your tests here.
@@ -18,3 +18,21 @@ class ModelTest(TestCase):
         result = Guest.objects.get(phone='123213213')
         self.assertEqual(result.realname, "alen")
         self.assertFalse(result.sign)
+
+class IndexPageTest(TestCase):
+    def test_index_page_renders_index_template(self):
+        #测试 index 登录首页
+        response = self.client.get('/index/')
+        self.assertEqual(response.status_code,200)
+        self.assertTemplateUsed(response,'index.html')
+
+class LoginActionTest(TestCase):
+
+    def setUp(self):
+        User.objects.create_user('admin','admin@mail.com','admin123456')
+
+    def test_add_admin(self):
+        #测试添加用户
+        user = User.objects.get(username="admin")
+        self.assertEqual(user.username,"admin")
+        self.assertEqual(user.email, "admin@mail.com")
